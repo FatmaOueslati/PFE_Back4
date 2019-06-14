@@ -1,0 +1,23 @@
+api_platform:
+    title: aaaaaaaaaaaaaaaa
+    version: 1.0.0
+    description: |
+        aaaaaaaaaaaaaaaaa
+    formats:
+        json: ['application/json']
+        html: ['text/html']
+    mapping:
+        paths: ['%kernel.project_dir%/src/Entity']
+    http_cache:
+        max_age: 0
+        shared_max_age: 3600
+        vary: ['Content-Type', 'Authorization', 'Origin']
+        public: true
+    collection:
+        pagination:
+            items_per_page: 30
+    swagger:
+        api_keys:
+            apiKey:
+                name: Authorization
+                type: header
