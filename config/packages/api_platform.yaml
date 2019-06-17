@@ -1,8 +1,8 @@
 api_platform:
-    title: aaaaaaaaaaaaaaaa
+    title: Gestion_Backlog
     version: 1.0.0
     description: |
-        aaaaaaaaaaaaaaaaa
+        Gestion_Backlog
     formats:
         json: ['application/json']
         html: ['text/html']
@@ -13,9 +13,7 @@ api_platform:
         shared_max_age: 3600
         vary: ['Content-Type', 'Authorization', 'Origin']
         public: true
-    collection:
-        pagination:
-            items_per_page: 30
+
     swagger:
         api_keys:
             apiKey:

@@ -4,10 +4,11 @@ namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiResource;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\JoinTable;
 use Symfony\Component\Security\Core\User\UserInterface;
-use ApiPlatform\Core\Annotation\ApiProperty;
-use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
 use ApiPlatform\Core\Serializer\Filter\PropertyFilter;
 use Symfony\Component\Serializer\Annotation\Groups;
@@ -15,10 +16,10 @@ use Symfony\Component\Serializer\Annotation\Groups;
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
  *
- * * @ApiResource(
+ * @ApiResource(
  *     itemOperations={
  *         "postAttemptLogin"={
- *            "denormalization_context"={"groups"={"user_login"}},
+ *         "denormalization_context"={"groups"={"login"}},
  *            "route_name"="api_login_check",
  *            "method"= "POST",
  *            "swagger_context" = {
@@ -63,38 +64,59 @@ use Symfony\Component\Serializer\Annotation\Groups;
  * @ApiFilter(OrderFilter::class, properties={"id"})
  *
  */
+
 class User implements UserInterface
 {
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
+     *
+     * @Groups({"get", "cget"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
+     *
+     * @Groups({"get", "cget", "post", "put"})
      */
     private $name;
 
     /**
      * @ORM\Column(type="string", length=255)
+     *
+     * @Groups({"get", "cget", "post", "put"})
      */
     private $email;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"post", "put", "login"})
      *
-     * @Groups({"user_post", "user_put", "user_login"})
      */
     private $password;
 
     /**
      * @ORM\Column(type="string", length=255)
      *
-     * @Groups({"user_post", "user_put", "user_login"})
+     * @Groups({"get", "cget", "post", "put", "login"})
      */
     private $username;
+
+
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Project", inversedBy="$users")
+     * @JoinTable(name="users_projects")
+     *
+     * @Groups({"get"})
+     */
+    private $projects;
+
+    public function __construct()
+    {
+        $this->projects = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -189,5 +211,31 @@ class User implements UserInterface
     public function eraseCredentials()
     {
         // TODO: Implement eraseCredentials() method.
+    }
+
+    /**
+     * @return Collection|Project[]
+     */
+    public function getProjects(): Collection
+    {
+        return $this->projects;
+    }
+
+    public function addProject(Project $project): self
+    {
+        if (!$this->projects->contains($project)) {
+            $this->projects[] = $project;
+        }
+
+        return $this;
+    }
+
+    public function removeProject(Project $project): self
+    {
+        if ($this->projects->contains($project)) {
+            $this->projects->removeElement($project);
+        }
+
+        return $this;
     }
 }
