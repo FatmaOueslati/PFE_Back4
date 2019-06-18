@@ -39,7 +39,7 @@ class Epic
     /**
      * @ORM\Column(type="integer", nullable=true)
      */
-    private $somme_complex;
+    private $sommeComplex;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
@@ -114,16 +114,17 @@ class Epic
      */
     public function getSommeComplex()
     {
-        return $this->somme_complex;
+        return $this->sommeComplex;
     }
 
     /**
-     * @param mixed $somme_complex
+     * @param mixed $sommeComplex
      */
-    public function setSommeComplex($somme_complex): void
+    public function setSommeComplex($sommeComplex): void
     {
-        $this->somme_complex = $somme_complex;
+        $this->sommeComplex = $sommeComplex;
     }
+
 
     public function getProjs(): ?Project
     {

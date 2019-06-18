@@ -12,7 +12,45 @@ use Doctrine\ORM\Mapping\JoinColumn;
 use App\Entity\Epic;
 
 /**
- * @ApiResource()
+ * @ApiResource(
+ *     itemOperations={
+ *         "dragAndDrop"={
+ *         "denormalization_context"={"groups"={"dragAndDrop"}},
+ *            "route_name"="drag_drop",
+ *            "method"= "PUT",
+ *            "swagger_context" = {
+ *               "responses" = {
+ *                   "200" = {
+ *                       "description" = "Successful drag",
+ *                       "schema" =  {
+ *                           "type" = "object",
+ *                           "required" = {
+ *                               "statut"
+ *                           },
+ *                           "properties" = {
+ *                                "staut" = {
+ *                                   "type" = "string"
+ *                                }
+ *                            }
+ *                       }
+ *                   },
+ *                   "400" = {
+ *                       "description" = "Invalid input"
+ *                   },
+ *                   "401" = {
+ *                       "description" = "drag failure"
+ *                   }
+ *                  },
+ *                  "summary" = "change the status of the user story",
+ *                  "consumes" = {
+ *                       "application/json",
+ *                   },
+ *                  "produces" = {
+ *                      "application/json"
+ *                   }
+ *              }
+ *          }
+ *     })
  * @ApiFilter(SearchFilter::class, properties={"name": "partial", "priorite": "partial"})
  * @ORM\Entity(repositoryClass="App\Repository\UserStoryRepository")
  */
@@ -61,7 +99,7 @@ class UserStory
     /**
      * @ORM\Column(type="integer", nullable=true)
      */
-    private $pt_complex;
+    private $ptComplex;
 
     public function getId(): ?int
     {
@@ -133,16 +171,18 @@ class UserStory
      */
     public function getPtComplex()
     {
-        return $this->pt_complex;
+        return $this->ptComplex;
     }
 
     /**
-     * @param mixed $pt_complex
+     * @param mixed $ptComplex
      */
-    public function setPtComplex($pt_complex): void
+    public function setPtComplex($ptComplex): void
     {
-        $this->pt_complex = $pt_complex;
+        $this->ptComplex = $ptComplex;
     }
+
+
 
     public function getEpic(): ?Epic
     {

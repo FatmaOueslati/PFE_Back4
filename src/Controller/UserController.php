@@ -3,10 +3,17 @@
 namespace App\Controller;
 
 use App\Entity\User;
+
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\Encoder\XmlEncoder;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Serializer\Serializer;
 
 
 class UserController extends AbstractController
@@ -27,7 +34,9 @@ class UserController extends AbstractController
     }
 
 
-
+    /**
+     * @Route("/register", methods={"POST"})
+     */
     public function newUser(Request $request){
 
         $parametersAsArray = [];
@@ -90,75 +99,85 @@ class UserController extends AbstractController
     }
 
 
+    /**
+     * @Route("/updateProfile/{id}" , methods={"PUT"})
+     */
 
-       /*****************Update User **********/
-
-    public function UpdateUser(Request $request){
-
-        $parametersAsArray = [];
+    public function UpdateUser($id, Request $request)
+    {
+        $data=[];
         if ($content = $request->getContent()) {
             $parametersAsArray = json_decode($content, true);
-        }
 
-        $data = array(
-            'message'=>'user Not updated, send data!',
-            'result'=>null
-        );
+            if ($parametersAsArray != null) {
 
+                $user = $this->getDoctrine()->getRepository(User::class)->find($id);
 
-        if($parametersAsArray !=null){
+                if (empty($user)) {
+                    $response = array(
+                        'message' => 'user not found',
+                        'error' => null,
+                        'result' => null
+                    );
 
-
-            $email = (isset($parametersAsArray['email'])) ? $parametersAsArray['email'] : null;
-            $name = (isset($parametersAsArray['name'])) ? $parametersAsArray['name'] : null;
-            $password = (isset($parametersAsArray['password'])) ? $parametersAsArray['password'] : null;
-            $username = (isset($parametersAsArray['username'])) ? $parametersAsArray['username'] : null;
-
-            if($email != null  && $password != null && $name != null && $username != null){
-
-                $user = new User();
-
-                $user->setUsername($username);
-                $user->setEmail($email);
-                $user->setName($name);
-                $user->setPassword($this->passwordEncoder->encodePassword($user, $password));
+                    return new JsonResponse($response);
+                }
 
                 $em = $this->getDoctrine()->getManager();
-                $isset_user = $em->getRepository(User::class)->findBy(array(
-                    "username" => $username
-                ));
 
-                if(count($isset_user)==0){
+                $name = (isset($parametersAsArray['name'])) ? $parametersAsArray['name'] : null;
+                $password = (isset($parametersAsArray['password'])) ? $parametersAsArray['password'] : null;
+                $email = (isset($parametersAsArray['email'])) ? $parametersAsArray['email'] : null;
+                $username = (isset($parametersAsArray['username'])) ? $parametersAsArray['username'] : null;
+
+                if ($email != null && $password != null && $name != null && $username != null) {
+
+                    $user->setName($parametersAsArray['name']);
+                    $user->setUsername($username);
+                    $user->setEmail($parametersAsArray['email']);
+                    $user->setPassword($this->passwordEncoder->encodePassword($user, $password));
+
+
                     $em->persist($user);
                     $em->flush();
 
                     $data = array(
-                        'message'=>'user updated !',
-                        'errors'=>null,
-                        'result'=>null
+                        "data" => "user updated",
+                        'errors' => null,
+                        'result' => null
                     );
-                }else{
-                    $data = array(
 
-                        'message'=>'user Not updated check data !',
-                        'errors'=>null,
-                        'result'=>null
-
-                    );
                 }
+
+            }else {
+                $data = array(
+                    "data" => "parameters failed",
+                    'result' => null
+
+                );
+
+
             }
 
         }
 
         return new JsonResponse($data);
-
     }
 
 
-
+    /**
+     * @Route("/user/{id}" , methods={"GET"})
+     * @param $id
+     * @return JsonResponse
+     */
 
     public function showUser($id)
     {
+        $encoders = [new JsonEncoder()];
+        $normalizers = [new ObjectNormalizer()];
+
+        $serializer = new Serializer($normalizers, $encoders);
+
         $user = $this->getDoctrine()->getRepository(User::class)->find($id);
 
         if (empty($user)) {
@@ -171,7 +190,7 @@ class UserController extends AbstractController
             return new JsonResponse($response);
         }
 
-        $data = $this->get('jms_serializer')->serialize($user, 'json');
+        $data = $serializer->serialize($user, 'json');
 
         $response = array(
 
@@ -186,11 +205,20 @@ class UserController extends AbstractController
     }
 
 
+    /**
+     * @Route("/users", methods={"GET"})
+     */
 
 
 
     public function listUser()
     {
+        $encoders = [new JsonEncoder()];
+        $normalizers = [new ObjectNormalizer()];
+
+        $serializer = new Serializer($normalizers, $encoders);
+
+
         $users=$this->getDoctrine()->getRepository(User::class)->findAll();
 
         if (!count($users)){
@@ -205,7 +233,7 @@ class UserController extends AbstractController
         }
 
 
-        $data=$this->get('jms_serializer')->serialize($users,'json');
+        $data = $serializer -> serialize($users,'json');
 
         $response=array(
             'message'=>'success',

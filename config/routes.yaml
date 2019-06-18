@@ -5,3 +5,8 @@
 api_login_check:
   path: /api/login_check
   methods:  [POST]
+
+
+drag_drop:
+  path: /api/drag_drop
+  methods:  [PUT]

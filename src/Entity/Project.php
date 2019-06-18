@@ -7,61 +7,14 @@ use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\JoinTable;
 use Doctrine\ORM\Mapping\ManyToMany;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\DateFilter;
 
 
 /**
- * @ApiResource(
- *       itemOperations={
- *         "postAttemptCreateProject"={
- *         "denormalization_context"={"groups"={"create_project"}},
- *            "route_name"="api_projects_post_collection",
- *            "method"= "POST",
- *            "swagger_context" = {
- *               "responses" = {
- *                   "200" = {
- *                       "description" = "Successful create project ",
- *                       "schema" =  {
- *                           "type" = "object",
- *                           "required" = {
- *                               "name",
- *                               "dateDebut"
- *                           },
- *                           "properties" = {
- *                                "name" = {
- *                                   "type" = "string"
- *                                },
- *                                "description" = {
- *                                   "type" = "string"
- *                                },
- *                                "dateDebut" = {
- *                                   "type" = "datetime"
- *                                },
- *                                "dateFin" = {
- *                                   "type" = "datetime"
- *                                },
- *                           }
- *                       }
- *                   },
- *                   "400" = {
- *                       "description" = "Invalid input"
- *                   },
- *                   "401" = {
- *                       "description" = "Authentication failure"
- *                   }
- *                  },
- *                  "summary" = "Create Project",
- *                  "consumes" = {
- *                       "application/json",
- *                   },
- *                  "produces" = {
- *                      "application/json"
- *                   }
- *              }
- *          }
- *     })
+ * @ApiResource()
  *
  * @ApiFilter(SearchFilter::class, properties={"name": "partial"})
  * @ApiFilter(DateFilter::class, properties={"dateDebut"})
@@ -70,6 +23,13 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\DateFilter;
  */
 class Project
 {
+
+    /**
+     * Many Users have Many projects.
+     * @ManyToMany(targetEntity="Reunion", inversedBy="projects")
+     * @JoinTable(name="projects_meetings")
+     */
+    private $meetings;
 
     /**
      * Many projects have Many Users.
@@ -122,6 +82,7 @@ class Project
     {
         $this->users = new ArrayCollection();
         $this->epics = new ArrayCollection();
+        $this->meetings = new ArrayCollection();
     }
 
     /**
@@ -248,6 +209,32 @@ class Project
             if ($epic->getProjs() === $this) {
                 $epic->setProjs(null);
             }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Reunion[]
+     */
+    public function getMeetings(): Collection
+    {
+        return $this->meetings;
+    }
+
+    public function addMeeting(Reunion $meeting): self
+    {
+        if (!$this->meetings->contains($meeting)) {
+            $this->meetings[] = $meeting;
+        }
+
+        return $this;
+    }
+
+    public function removeMeeting(Reunion $meeting): self
+    {
+        if ($this->meetings->contains($meeting)) {
+            $this->meetings->removeElement($meeting);
         }
 
         return $this;
