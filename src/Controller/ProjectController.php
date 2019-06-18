@@ -7,19 +7,14 @@ use App\Entity\Project;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Routing\Annotation\Route;
+
 use Symfony\Component\Validator\Constraints\DateTime;
 
-/**
- * @Route("/project")
- */
+
 class ProjectController extends Controller
 {
-    /**
-     * @Route("/{id}", name="show_project", methods={"GET"})
-     * @param $id
-     * @return JsonResponse
-     */
+
+
     public function showProject($id)
     {
 
@@ -52,12 +47,11 @@ class ProjectController extends Controller
 
     }
 
-    /**
-     * @Route("/new", name="project_new", methods={"POST"})
-     */
+
     public function CreateProject(Request $request)
     {
            $data=[];
+          // $stat='en cours';
         if ($content = $request->getContent()) {
                 $parametersAsArray = json_decode($content, true);
 
@@ -69,7 +63,7 @@ class ProjectController extends Controller
 
                     $project->setName($parametersAsArray['name']);
                     $project->setDescription($parametersAsArray['description']);
-                    $project->setStatut('en cours');
+                   //$project->setStatut($stat);
                     $project->setDateDebut(new \DateTime($parametersAsArray['dateDebut']));
                     $project->setDateFin(new \DateTime($parametersAsArray['dateFin']));
 
@@ -99,10 +93,8 @@ class ProjectController extends Controller
         return new JsonResponse($data);
     }
 
-    /**
-     * @Route("/", name="projects_show", methods={"GET"})
-     * @return JsonResponse
-     */
+
+
     public function listProject()
     {
 
@@ -135,9 +127,10 @@ class ProjectController extends Controller
 
     }
 
-    /**
-     * @Route("/{id}/edit", name="project_edit", methods={"PUT"})
-     */
+
+
+
+
     public function UpdateProject($id, Request $request)
     {
         $data=[];
@@ -181,11 +174,7 @@ class ProjectController extends Controller
         return new JsonResponse($data);
     }
 
-    /**
-     * @Route("/{id}", name="project_delete", methods={"DELETE"})
-     * @param $id
-     * @return JsonResponse
-     */
+
     public function deleteProject($id)
     {
 
@@ -216,12 +205,9 @@ class ProjectController extends Controller
 
     }
 
-    /**
-     * @Route("/{id}/archiver", name="project_archiver", methods={"PUT"})
-     * @param $id
-     * @param Request $request
-     * @return JsonResponse
-     */
+
+
+
     public function ArchiveProject($id, Request $request)
     {
         $data=[];

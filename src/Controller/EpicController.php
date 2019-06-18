@@ -11,15 +11,10 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-/**
- * @Route("/epic")
- */
+
 class EpicController extends AbstractController
 {
 
-    /**
-     * @Route("/new", name="epic_new", methods={"POST"})
-     */
     public function CreateEpic(Request $request)
     {
         if ($content = $request->getContent()) {
@@ -28,17 +23,19 @@ class EpicController extends AbstractController
 
             if ($parametersAsArray != null) {
 
+
+
                 $epic = new Epic();
 
-               // $project_id = $parametersAsArray['project_id'];
+                $project_id = $parametersAsArray['project_id'];
 
-              //  $project = $this->getDoctrine()->getManager()->getRepository('ScrumBundle:Project')->find($project_id);
+                $project = $this->getDoctrine()->getManager()->getRepository(Project::class)->find($project_id);
 
                 $epic->setName($parametersAsArray['name']);
                 $epic->setDuree($parametersAsArray['duree']);
                 $epic->setDescription($parametersAsArray['description']);
                 $epic->setSommeComplex($parametersAsArray['sommeComplex']);
-             //   $epic->setEpics($project);
+                $epic->setProjs($project);
 
 
                 $em->persist($epic);
@@ -65,10 +62,8 @@ class EpicController extends AbstractController
         return new JsonResponse($data);
     }
 
-    /**
-     * @Route("/{id}", name="epic_show", methods={"GET"})
-     */
-    public function showEpic($id, Request $request)
+
+    public function showEpic($id)
     {
 
             $epic = $this->getDoctrine()->getRepository(Epic::class)->find($id);
@@ -100,9 +95,7 @@ class EpicController extends AbstractController
 
     }
 
-    /**
-     * @Route("/{id}/edit", name="epic_edit", methods={"PUT"})
-     */
+
     public function UpdateEpic($id,Request $request)
     {
         if ($content = $request->getContent()) {
@@ -152,10 +145,7 @@ class EpicController extends AbstractController
 
     }
 
-    /**
-     * @Route("/{id}", name="epic_delete", methods={"DELETE"})
-     */
-    public function deleteEpic($id, Request $request)
+    public function deleteEpic($id)
     {
 
             $epic=$this->getDoctrine()->getRepository(Epic::class)->find($id);

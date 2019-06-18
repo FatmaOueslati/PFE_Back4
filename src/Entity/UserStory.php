@@ -2,6 +2,10 @@
 
 namespace App\Entity;
 
+
+
+use ApiPlatform\Core\Annotation\ApiFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\JoinColumn;
@@ -9,6 +13,7 @@ use App\Entity\Epic;
 
 /**
  * @ApiResource()
+ * @ApiFilter(SearchFilter::class, properties={"name": "partial", "priorite": "partial"})
  * @ORM\Entity(repositoryClass="App\Repository\UserStoryRepository")
  */
 class UserStory

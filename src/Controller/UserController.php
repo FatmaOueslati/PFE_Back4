@@ -6,13 +6,9 @@ use App\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 
-/**
- * @Route("/user")
- */
 class UserController extends AbstractController
 {
 
@@ -31,9 +27,7 @@ class UserController extends AbstractController
     }
 
 
-    /**
-     * @Route("/new", name="user_new", methods={"POST"})
-     */
+
     public function newUser(Request $request){
 
         $parametersAsArray = [];
@@ -96,9 +90,9 @@ class UserController extends AbstractController
     }
 
 
-    /**
-     * @Route("/{id}/edit", name="user_update", methods={"PUT"})
-     */
+
+       /*****************Update User **********/
+
     public function UpdateUser(Request $request){
 
         $parametersAsArray = [];
@@ -160,10 +154,10 @@ class UserController extends AbstractController
 
     }
 
-    /**
-     * @Route("/{id}", name="user_show", methods={"GET"})
-     */
-    public function showUser($id, Request $request)
+
+
+
+    public function showUser($id)
     {
         $user = $this->getDoctrine()->getRepository(User::class)->find($id);
 
@@ -193,10 +187,9 @@ class UserController extends AbstractController
 
 
 
-    /**
-     * @Route("/", name="users_show", methods={"GET"})
-     */
-    public function listUser(Request $request)
+
+
+    public function listUser()
     {
         $users=$this->getDoctrine()->getRepository(User::class)->findAll();
 

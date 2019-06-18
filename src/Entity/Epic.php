@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -11,6 +13,7 @@ use Doctrine\ORM\Mapping\JoinColumn;
 
 /**
  * @ApiResource()
+ * @ApiFilter(SearchFilter::class, properties={"name": "partial" , "description": "partial"})
  * @ORM\Entity(repositoryClass="App\Repository\EpicRepository")
  */
 class Epic

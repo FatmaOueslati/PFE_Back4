@@ -9,14 +9,11 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
-/**
- * @Route("/user/story")
- */
+
 class UserStoryController extends AbstractController
 {
-    /**
-     * @Route("/new", name="user_story_new", methods={"POST"})
-     */
+
+
     public function CreateStory(Request $request)
     {
         if ($content = $request->getContent()) {
@@ -62,10 +59,9 @@ class UserStoryController extends AbstractController
         return new JsonResponse($data);
     }
 
-    /**
-     * @Route("/{id}", name="user_story_show", methods={"GET"})
-     */
-    public function showUserStory($id, Request $request)
+
+
+    public function showUserStory($id)
     {
         $story = $this->getDoctrine()->getRepository(UserStory::class)->find($id);
 
@@ -92,9 +88,10 @@ class UserStoryController extends AbstractController
 
     }
 
-    /**
-     * @Route("/{id}/edit", name="user_story_edit", methods={"GET","POST"})
-     */
+
+
+
+
     public function UpdateStory($id, Request $request)
     {
         if ($content = $request->getContent()) {
@@ -144,9 +141,9 @@ class UserStoryController extends AbstractController
 
     }
 
-    /**
-     * @Route("/{id}", name="user_story_delete", methods={"DELETE"})
-     */
+
+
+
     public function deleteUserStory($id, Request $request)
     {
         $story=$this->getDoctrine()->getRepository(UserStory::class)->find($id);
@@ -183,9 +180,6 @@ class UserStoryController extends AbstractController
     }
 
 
-    /**
-     * @Route("/{id}", name="user_story_drag", methods={"POST"})
-     */
 
     public function DragAndDrop ($id ,Request $request){
 

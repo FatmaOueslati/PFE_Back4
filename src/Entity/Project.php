@@ -2,23 +2,27 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\ManyToMany;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\DateFilter;
+
 
 /**
  * @ApiResource(
  *       itemOperations={
  *         "postAttemptCreateProject"={
  *         "denormalization_context"={"groups"={"create_project"}},
- *            "route_name"="project_new",
+ *            "route_name"="api_projects_post_collection",
  *            "method"= "POST",
  *            "swagger_context" = {
  *               "responses" = {
  *                   "200" = {
- *                       "description" = "Successful login attempt, create project ",
+ *                       "description" = "Successful create project ",
  *                       "schema" =  {
  *                           "type" = "object",
  *                           "required" = {
@@ -57,9 +61,12 @@ use Doctrine\ORM\Mapping\ManyToMany;
  *                   }
  *              }
  *          }
- *     }
- * )
+ *     })
+ *
+ * @ApiFilter(SearchFilter::class, properties={"name": "partial"})
+ * @ApiFilter(DateFilter::class, properties={"dateDebut"})
  * @ORM\Entity(repositoryClass="App\Repository\ProjectRepository")
+ *
  */
 class Project
 {
