@@ -52,12 +52,12 @@ class UserStory
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $priorite;
+    private $priority;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $statut;
+    private $status;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
@@ -105,26 +105,32 @@ class UserStory
         return $this;
     }
 
-    public function getPriorite(): ?string
+    /**
+     * @return mixed
+     */
+    public function getPriority()
     {
-        return $this->priorite;
+        return $this->priority;
     }
 
-    public function setPriorite(?string $priorite): self
+    /**
+     * @param mixed $priority
+     */
+    public function setPriority($priority): void
     {
-        $this->priorite = $priorite;
-
-        return $this;
+        $this->priority = $priority;
     }
 
-    public function getStatut(): ?string
+
+
+    public function getStatus(): ?string
     {
-        return $this->statut;
+        return $this->status;
     }
 
-    public function setStatut(?string $statut): self
+    public function setStatus(?string $status = 'new'): self
     {
-        $this->statut = $statut;
+        $this->status = $status;
 
         return $this;
     }

@@ -24,12 +24,13 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\DateFilter;
 class Project
 {
 
+
     /**
-     * Many Users have Many projects.
-     * @ManyToMany(targetEntity="Reunion", inversedBy="projects")
+     * Many meetings have Many projects.
+     * @ManyToMany(targetEntity="meeting", inversedBy="projects")
      * @JoinTable(name="projects_meetings")
      */
-    private $meetings;
+    private $meet;
 
     /**
      * Many projects have Many Users.
@@ -65,41 +66,26 @@ class Project
     /**
      * @ORM\Column(type="datetime")
      */
-    private $dateDebut;
+    private $dateStart;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
      */
-    private $dateFin;
+    private $dateEnd;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $statut;
+    private $status;
 
 
     public function __construct()
     {
         $this->users = new ArrayCollection();
         $this->epics = new ArrayCollection();
-        $this->meetings = new ArrayCollection();
+        $this->meet = new ArrayCollection();
     }
 
-    /**
-     * @return mixed
-     */
-    public function getStatut()
-    {
-        return $this->statut;
-    }
-
-    /**
-     * @param mixed $statut
-     */
-    public function setStatut($statut): void
-    {
-        $this->statut = "en cours";
-    }
 
 
     public function getId(): ?int
@@ -131,29 +117,55 @@ class Project
         return $this;
     }
 
-    public function getDateDebut(): ?\DateTimeInterface
+    /**
+     * @return mixed
+     */
+    public function getDateStart()
     {
-        return $this->dateDebut;
+        return $this->dateStart;
     }
 
-    public function setDateDebut(\DateTimeInterface $dateDebut): self
+    /**
+     * @param mixed $dateStart
+     */
+    public function setDateStart($dateStart): void
     {
-        $this->dateDebut = $dateDebut;
-
-        return $this;
+        $this->dateStart = $dateStart;
     }
 
-    public function getDateFin(): ?\DateTimeInterface
+    /**
+     * @return mixed
+     */
+    public function getDateEnd()
     {
-        return $this->dateFin;
+        return $this->dateEnd;
     }
 
-    public function setDateFin(?\DateTimeInterface $dateFin): self
+    /**
+     * @param mixed $dateEnd
+     */
+    public function setDateEnd($dateEnd): void
     {
-        $this->dateFin = $dateFin;
-
-        return $this;
+        $this->dateEnd = $dateEnd;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getStatus()
+    {
+        return $this->status;
+    }
+
+    /**
+     * @param mixed $status
+     */
+    public function setStatus($status): void
+    {
+        $this->status = $status;
+    }
+
+
 
     /**
      * @return Collection|User[]
@@ -215,28 +227,29 @@ class Project
     }
 
     /**
-     * @return Collection|Reunion[]
+     * @return Collection|meeting[]
      */
-    public function getMeetings(): Collection
+    public function getMeet(): Collection
     {
-        return $this->meetings;
+        return $this->meet;
     }
 
-    public function addMeeting(Reunion $meeting): self
+    public function addMeet(meeting $meet): self
     {
-        if (!$this->meetings->contains($meeting)) {
-            $this->meetings[] = $meeting;
+        if (!$this->meet->contains($meet)) {
+            $this->meet[] = $meet;
         }
 
         return $this;
     }
 
-    public function removeMeeting(Reunion $meeting): self
+    public function removeMeet(meeting $meet): self
     {
-        if ($this->meetings->contains($meeting)) {
-            $this->meetings->removeElement($meeting);
+        if ($this->meet->contains($meet)) {
+            $this->meet->removeElement($meet);
         }
 
         return $this;
     }
+
 }

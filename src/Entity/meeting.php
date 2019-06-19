@@ -10,16 +10,17 @@ use Doctrine\ORM\Mapping\ManyToMany;
 
 /**
  * @ApiResource()
- * @ORM\Entity(repositoryClass="App\Repository\ReunionRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\meetingRepository")
  */
-class Reunion
+class meeting
 {
 
     /**
-     * Many reunions have Many projects.
-     * @ManyToMany(targetEntity="Project", mappedBy="meetings")
+     * Many meetings have Many projects.
+     * @ManyToMany(targetEntity="Project", mappedBy="meet")
      */
     private $projects;
+
 
     /**
      *
@@ -42,7 +43,7 @@ class Reunion
     /**
      * @ORM\Column(type="datetime")
      */
-    private $dateReunion;
+    private $date;
 
     public function __construct()
     {
@@ -79,20 +80,20 @@ class Reunion
         return $this;
     }
 
-    public function getDateReunion(): ?\DateTimeInterface
+    public function getDate(): ?\DateTimeInterface
     {
-        return $this->dateReunion;
+        return $this->date;
     }
 
-    public function setDateReunion(\DateTimeInterface $dateReunion): self
+    public function setDate(\DateTimeInterface $date): self
     {
-        $this->dateReunion = $dateReunion;
+        $this->date = $date;
 
         return $this;
     }
 
     /**
-     * @return Collection|User[]
+     * @return Collection|Project[]
      */
     public function getProjects(): Collection
     {
@@ -103,7 +104,7 @@ class Reunion
     {
         if (!$this->projects->contains($project)) {
             $this->projects[] = $project;
-            $project->addMeeting($this);
+            $project->addMeet($this);
         }
 
         return $this;
@@ -113,10 +114,11 @@ class Reunion
     {
         if ($this->projects->contains($project)) {
             $this->projects->removeElement($project);
-            $project->removeMeeting($this);
+            $project->removeMeet($this);
         }
 
         return $this;
     }
+
 
 }

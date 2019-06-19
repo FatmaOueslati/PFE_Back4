@@ -2,25 +2,25 @@
 
 namespace App\Repository;
 
-use App\Entity\Reunion;
+use App\Entity\meeting;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
- * @method Reunion|null find($id, $lockMode = null, $lockVersion = null)
- * @method Reunion|null findOneBy(array $criteria, array $orderBy = null)
- * @method Reunion[]    findAll()
- * @method Reunion[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method meeting|null find($id, $lockMode = null, $lockVersion = null)
+ * @method meeting|null findOneBy(array $criteria, array $orderBy = null)
+ * @method meeting[]    findAll()
+ * @method meeting[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class ReunionRepository extends ServiceEntityRepository
+class meetingRepository extends ServiceEntityRepository
 {
     public function __construct(RegistryInterface $registry)
     {
-        parent::__construct($registry, Reunion::class);
+        parent::__construct($registry, meeting::class);
     }
 
     // /**
-    //  * @return Reunion[] Returns an array of Reunion objects
+    //  * @return meeting[] Returns an array of meeting objects
     //  */
     /*
     public function findByExampleField($value)
@@ -37,7 +37,7 @@ class ReunionRepository extends ServiceEntityRepository
     */
 
     /*
-    public function findOneBySomeField($value): ?Reunion
+    public function findOneBySomeField($value): ?meeting
     {
         return $this->createQueryBuilder('r')
             ->andWhere('r.exampleField = :val')

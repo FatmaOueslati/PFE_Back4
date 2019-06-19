@@ -39,12 +39,9 @@ class Epic
     /**
      * @ORM\Column(type="integer", nullable=true)
      */
-    private $sommeComplex;
+    private $sumComplex;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $duree;
+
 
 
     /**
@@ -95,35 +92,26 @@ class Epic
         return $this;
     }
 
-
-
-    public function getDuree(): ?string
-    {
-        return $this->duree;
-    }
-
-    public function setDuree(?string $duree): self
-    {
-        $this->duree = $duree;
-
-        return $this;
-    }
-
     /**
      * @return mixed
      */
-    public function getSommeComplex()
+    public function getSumComplex()
     {
-        return $this->sommeComplex;
+        return $this->sumComplex;
     }
 
     /**
-     * @param mixed $sommeComplex
+     * @param mixed $sumComplex
      */
-    public function setSommeComplex($sommeComplex): void
+    public function setSumComplex($sumComplex): void
     {
-        $this->sommeComplex = $sommeComplex;
+        $this->sumComplex = $sumComplex;
     }
+
+
+
+
+
 
 
     public function getProjs(): ?Project

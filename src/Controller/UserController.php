@@ -10,10 +10,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
-use Symfony\Component\Serializer\Encoder\JsonEncoder;
-use Symfony\Component\Serializer\Encoder\XmlEncoder;
-use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
-use Symfony\Component\Serializer\Serializer;
 
 
 class UserController extends AbstractController
@@ -170,7 +166,7 @@ class UserController extends AbstractController
      * @param $id
      * @return JsonResponse
      */
-
+/*
     public function showUser($id)
     {
         $encoders = [new JsonEncoder()];
@@ -201,14 +197,14 @@ class UserController extends AbstractController
         return new JsonResponse($response);
 
     }
-
+*/
 
     /**
      * @Route("/users", methods={"GET"})
      */
 
 
-
+/*
     public function listUser()
     {
         $encoders = [new JsonEncoder()];
@@ -231,17 +227,29 @@ class UserController extends AbstractController
         }
 
 
-        $data = $serializer -> serialize($users,'json');
 
-        $response=array(
-            'result'=>json_decode($data)
+// Serialize your object in Json
+       // $jsonObject = $serializer->serialize($users, 'json', [
+          //  'circular_reference_handler' => function ($users) {
 
-        );
+             //   return $users->getId();
+           // }
+    //    ]);
+
+// For instance, return a Response with encoded Json
+       // return new JsonResponse($jsonObject, 200, ['Content-Type' => 'application/json']);
+
+      //  $data = $serializer -> serialize($users,'json');
+
+      //  $response=array(
+        //    'result'=>json_decode($data)
+
+    //    );
 
 
-        return new JsonResponse($response);
+     //   return new JsonResponse($response);
 
     }
 
-
+*/
 }

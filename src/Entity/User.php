@@ -19,6 +19,10 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *
  * @ApiResource(
  *     collectionOperations={
+ *         "getUsers"={
+ *              "normalization_context"={"groups"={"cget"}},
+ *              "method"="GET"
+ *          },
  *         "postAttemptLogin"={
  *         "denormalization_context"={"groups"={"login"}},
  *            "route_name"="api_login_check",
