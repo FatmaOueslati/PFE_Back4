@@ -12,46 +12,9 @@ use Doctrine\ORM\Mapping\JoinColumn;
 use App\Entity\Epic;
 
 /**
- * @ApiResource(
- *     itemOperations={
- *         "dragAndDrop"={
- *         "denormalization_context"={"groups"={"dragAndDrop"}},
- *            "route_name"="drag_drop",
- *            "method"= "PUT",
- *            "swagger_context" = {
- *               "responses" = {
- *                   "200" = {
- *                       "description" = "Successful drag",
- *                       "schema" =  {
- *                           "type" = "object",
- *                           "required" = {
- *                               "statut"
- *                           },
- *                           "properties" = {
- *                                "staut" = {
- *                                   "type" = "string"
- *                                }
- *                            }
- *                       }
- *                   },
- *                   "400" = {
- *                       "description" = "Invalid input"
- *                   },
- *                   "401" = {
- *                       "description" = "drag failure"
- *                   }
- *                  },
- *                  "summary" = "change the status of the user story",
- *                  "consumes" = {
- *                       "application/json",
- *                   },
- *                  "produces" = {
- *                      "application/json"
- *                   }
- *              }
- *          }
- *     })
- * @ApiFilter(SearchFilter::class, properties={"name": "partial", "priorite": "partial"})
+ * @ApiResource()
+ * @ApiFilter(SearchFilter::class, properties={"name": "partial", "priorite": "partial",})
+ *
  * @ORM\Entity(repositoryClass="App\Repository\UserStoryRepository")
  */
 class UserStory

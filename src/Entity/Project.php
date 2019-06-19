@@ -98,7 +98,7 @@ class Project
      */
     public function setStatut($statut): void
     {
-        $this->statut = $statut;
+        $this->statut = "en cours";
     }
 
 

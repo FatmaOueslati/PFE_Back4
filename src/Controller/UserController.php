@@ -194,8 +194,6 @@ class UserController extends AbstractController
 
         $response = array(
 
-            'message' => 'success',
-            'errors' => null,
             'result' => json_decode($data)
 
         );
@@ -236,8 +234,6 @@ class UserController extends AbstractController
         $data = $serializer -> serialize($users,'json');
 
         $response=array(
-            'message'=>'success',
-            'errors'=>null,
             'result'=>json_decode($data)
 
         );

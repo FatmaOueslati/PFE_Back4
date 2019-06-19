@@ -13,11 +13,12 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
 use ApiPlatform\Core\Serializer\Filter\PropertyFilter;
 use Symfony\Component\Serializer\Annotation\Groups;
 
+
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
  *
  * @ApiResource(
- *     itemOperations={
+ *     collectionOperations={
  *         "postAttemptLogin"={
  *         "denormalization_context"={"groups"={"login"}},
  *            "route_name"="api_login_check",
