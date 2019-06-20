@@ -38,7 +38,7 @@ class Project
      */
     private $users;
 
-
+  
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Epic", mappedBy="projs")
      */
@@ -160,7 +160,7 @@ class Project
     /**
      * @param mixed $status
      */
-    public function setStatus($status): void
+    public function setStatus($status = 'on going'): void
     {
         $this->status = $status;
     }

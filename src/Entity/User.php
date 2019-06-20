@@ -23,6 +23,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *              "normalization_context"={"groups"={"cget"}},
  *              "method"="GET"
  *          },
+ *
  *         "postAttemptLogin"={
  *         "denormalization_context"={"groups"={"login"}},
  *            "route_name"="api_login_check",
@@ -62,8 +63,58 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *                      "application/json"
  *                   }
  *              }
+ *           },
+ *
+ *           "createUser"={
+ *           "denormalization_context"={"groups"={"create"}},
+ *              "route_name"="app_user_newuser",
+ *              "method"= "POST",
+ *              "swagger_context" = {
+ *                "responses" = {
+ *                   "200" = {
+ *                       "description" = "Successful creation",
+ *                       "schema" =  {
+ *                           "type" = "object",
+ *                           "required" = {
+ *                               "username",
+ *                               "name",
+ *                               "email",
+ *                               "password"
+ *                           },
+ *                           "properties" = {
+ *                                "username" = {
+ *                                   "type" = "string"
+ *                                },
+ *                                "password" = {
+ *                                   "type" = "string"
+ *                                },
+ *                                "email" = {
+ *                                   "type" = "string"
+ *                                },
+ *                                "name" = {
+ *                                   "type" = "string"
+ *                                }
+ *                           }
+ *                       }
+ *                   },
+ *                   "400" = {
+ *                       "description" = "Invalid input"
+ *                   },
+ *                   "401" = {
+ *                       "description" = "Authentication failure"
+ *                   }
+ *                  },
+ *                  "summary" = "user created successfully",
+ *                  "consumes" = {
+ *                       "application/json",
+ *                   },
+ *                  "produces" = {
+ *                      "application/json"
+ *                   }
+ *              }
  *          }
  *     }
+ *
  * )
  * @ApiFilter(PropertyFilter::class)
  * @ApiFilter(OrderFilter::class, properties={"id"})
@@ -84,20 +135,20 @@ class User implements UserInterface
     /**
      * @ORM\Column(type="string", length=255)
      *
-     * @Groups({"get", "cget", "post", "put"})
+     * @Groups({"get", "cget", "post", "updateUser", "create"})
      */
     private $name;
 
     /**
      * @ORM\Column(type="string", length=255)
      *
-     * @Groups({"get", "cget", "post", "put"})
+     * @Groups({"get", "cget", "post","updateUser", "create"})
      */
     private $email;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"post", "put", "login"})
+     * @Groups({"post", "updateUser", "login" , "create"})
      *
      */
     private $password;
@@ -105,7 +156,7 @@ class User implements UserInterface
     /**
      * @ORM\Column(type="string", length=255)
      *
-     * @Groups({"get", "cget", "post", "put", "login"})
+     * @Groups({"get", "cget", "post", "updateUser", "login", "create"})
      */
     private $username;
 

@@ -161,7 +161,7 @@ class UserController extends AbstractController
     }
 
 
-    /**
+    /* *
      * @Route("/user/{id}" , methods={"GET"})
      * @param $id
      * @return JsonResponse
@@ -199,7 +199,7 @@ class UserController extends AbstractController
     }
 */
 
-    /**
+    /* *
      * @Route("/users", methods={"GET"})
      */
 
