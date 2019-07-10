@@ -161,6 +161,9 @@ class User implements UserInterface
     private $username;
 
 
+
+
+
     /**
      * @ORM\ManyToMany(targetEntity="App\Entity\Project", inversedBy="$users")
      * @JoinTable(name="users_projects")
