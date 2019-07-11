@@ -123,6 +123,11 @@ use Symfony\Component\Serializer\Annotation\Groups;
 
 class User implements UserInterface
 {
+    const ROLE_USER = 'ROLE_USER';
+    const ROLE_ADMIN = 'ROLE_ADMIN';
+
+    const DEFAULT_ROLES = [self::ROLE_ADMIN];
+
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
@@ -161,7 +166,28 @@ class User implements UserInterface
     private $username;
 
 
+    /**
+     * @ORM\Column(type="integer")
+     *
+     * @Groups({"get", "cget", "post", "updateUser", "create"})
+     */
+    private $phone;
 
+    /**
+     * @return mixed
+     */
+    public function getPhone()
+    {
+        return $this->phone;
+    }
+
+    /**
+     * @param mixed $phone
+     */
+    public function setPhone($phone): void
+    {
+        $this->phone = $phone;
+    }
 
 
     /**
@@ -172,9 +198,15 @@ class User implements UserInterface
      */
     private $projects;
 
+    /**
+     * @ORM\Column(type="simple_array", length=200)
+     */
+    private $roles;
+
     public function __construct()
     {
         $this->projects = new ArrayCollection();
+        $this->roles = self::DEFAULT_ROLES;
     }
 
     public function getId(): ?int
@@ -230,25 +262,15 @@ class User implements UserInterface
         return $this;
     }
 
-    /**
-     * Returns the roles granted to the user.
-     *
-     *     public function getRoles()
-     *     {
-     *         return ['ROLE_USER'];
-     *     }
-     *
-     * Alternatively, the roles might be stored on a ``roles`` property,
-     * and populated in any number of different ways when the user object
-     * is created.
-     *
-     * @return (Role|string)[] The user roles
-     */
-    public function getRoles()
+    public function getRoles(): array
     {
-        return ['ROLE_USER'];
+        return $this->roles;
     }
 
+    public function setRoles(array $roles)
+    {
+        $this->roles = $roles;
+    }
     /**
      * Returns the salt that was originally used to encode the password.
      *

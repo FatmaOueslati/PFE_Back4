@@ -3,7 +3,9 @@
 namespace App\Controller;
 
 use App\Entity\User;
-
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Serializer\Serializer;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -29,6 +31,33 @@ class UserController extends AbstractController
         $this->passwordEncoder = $passwordEncoder;
     }
 
+    /* *
+     * @Route("/getID/{username}", methods={"get"})
+     *
+    public function getID($username){
+
+
+        $em = $this->getDoctrine()->getManager();
+        $user = $em->getRepository(User::class)->findBy(array(
+            "username" => $username
+        ));
+
+        $encoders = [new JsonEncoder()];
+        $normalizers = [new ObjectNormalizer()];
+
+        $serializer = new Serializer($normalizers, $encoders);
+
+        $data = $serializer -> serialize($user,'json');
+
+
+        $response = array(
+
+            'result' => json_decode($data)
+
+        );
+        return new JsonResponse($response);
+    }
+*/
 
     /**
      * @Route("/register", methods={"POST"})
