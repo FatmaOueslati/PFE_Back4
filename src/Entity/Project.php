@@ -11,10 +11,18 @@ use Doctrine\ORM\Mapping\JoinTable;
 use Doctrine\ORM\Mapping\ManyToMany;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\DateFilter;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 
 /**
- * @ApiResource()
+ * @ApiResource(
+ *      itemOperations={
+ *     "get"={
+ *            "normalization_context"={"groups"={"get"}},
+ *            "methods"="GET"
+ * }
+ *}
+ * )
  *
  * @ApiFilter(SearchFilter::class, properties={"name": "partial"})
  * @ApiFilter(DateFilter::class, properties={"dateDebut"})
@@ -50,16 +58,19 @@ class Project
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
+     *  @Groups({"get"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"get"})
      */
     private $name;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups({"get"})
      */
     private $description;
 
@@ -75,6 +86,7 @@ class Project
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups({"get"})
      */
     private $status;
 
