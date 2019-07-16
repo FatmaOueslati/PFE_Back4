@@ -6,7 +6,8 @@ use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Doctrine\ORM\Mapping\ManyToMany;
+use Doctrine\ORM\Mapping\JoinColumn;
+
 
 /**
  * @ApiResource()
@@ -15,12 +16,12 @@ use Doctrine\ORM\Mapping\ManyToMany;
 class meeting
 {
 
-    /**
-     * Many meetings have Many projects.
-     * @ManyToMany(targetEntity="Project", mappedBy="meet")
-     */
-    private $projects;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Project", inversedBy="meet")
+     * @JoinColumn(name="project_id", referencedColumnName="id")
+     */
+    protected $projects;
 
     /**
      *
@@ -40,7 +41,26 @@ class meeting
      */
     private $description;
 
-    
+    /**
+     * @return mixed
+     */
+    public function getType()
+    {
+        return $this->type;
+    }
+
+    /**
+     * @param mixed $type
+     */
+    public function setType($type): void
+    {
+        $this->type = $type;
+    }
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $type;
 
     /**
      * @ORM\Column(type="datetime")

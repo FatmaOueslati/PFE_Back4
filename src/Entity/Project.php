@@ -11,7 +11,7 @@ use Doctrine\ORM\Mapping\JoinTable;
 use Doctrine\ORM\Mapping\ManyToMany;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\DateFilter;
-use Symfony\Component\Serializer\Annotation\Groups;
+
 
 
 /**
@@ -26,12 +26,13 @@ class Project
 {
 
 
+
+
+
     /**
-     * Many meetings have Many projects.
-     * @ManyToMany(targetEntity="meeting", inversedBy="projects")
-     * @JoinTable(name="projects_meetings")
+     * @ORM\OneToMany(targetEntity="App\Entity\meeting", mappedBy="projects")
      */
-    private $meet;
+    protected $meet;
 
     /**
      * Many projects have Many Users.
