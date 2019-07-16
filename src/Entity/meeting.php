@@ -40,6 +40,8 @@ class meeting
      */
     private $description;
 
+    
+
     /**
      * @ORM\Column(type="datetime")
      */
