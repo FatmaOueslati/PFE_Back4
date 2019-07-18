@@ -114,14 +114,6 @@ class meeting
         return $this;
     }
 
-    /**
-     * @return Collection|Project[]
-     */
-    public function getProjects(): Collection
-    {
-        return $this->projects;
-    }
-
     public function addProject(Project $project): self
     {
         if (!$this->projects->contains($project)) {
